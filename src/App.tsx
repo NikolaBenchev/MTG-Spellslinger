@@ -1,9 +1,15 @@
-const App = () => {
-  return (
-    <div>
-      <h1>Hello World</h1>
-    </div>
-  );
-};
+import { useSelector } from "react-redux";
+import { getUsersState } from "./selectors";
 
-export default App;
+function App() {
+  const { list, isLoading ,pagination } = useSelector(getUsersState);
+
+  console.log(list, isLoading, pagination);
+  return (
+    <>
+      <h1>Hello World</h1>
+    </>
+  )
+}
+
+export default App
