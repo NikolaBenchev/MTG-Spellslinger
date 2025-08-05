@@ -1,13 +1,22 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUsersState } from "./selectors";
+import { useEffect } from "react";
+import { getUsers } from "./features/users/users.async";
+import type { AppDispatch } from "./store/store";
+import UserTable from "./components/User/UserTable";
 
 function App() {
-  const { list, isLoading ,pagination } = useSelector(getUsersState);
+  const dispatch = useDispatch<AppDispatch>();
+  const { list, isLoading, pagination } = useSelector(getUsersState);
 
-  console.log(list, isLoading, pagination);
+  useEffect(() => {
+    dispatch(getUsers(""));
+  }, [dispatch]);
+
   return (
     <>
       <h1>Hello World</h1>
+      {!isLoading && <UserTable dataSource={list}/>}
     </>
   )
 }

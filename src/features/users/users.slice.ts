@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { UsersStateModel } from "./models/User";
+import { getUsers } from "./users.async";
 
 const initialState: UsersStateModel = {
     pagination: {
@@ -14,18 +15,18 @@ const initialState: UsersStateModel = {
 export const usersSlice = createSlice({
     name: 'users',
     initialState,
-    reducers: {
-        get: state => {
-            
-        },
-        getAll: state => {
-
-        },
-        create: state => {
-            
-        },
-        update: state => {
-
-        }
-    } 
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(getUsers.pending, (state) => {
+                state.isLoading = true;
+            })
+            .addCase(getUsers.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.list = action.payload.list;
+            })
+            .addCase(getUsers.rejected, (state, action) => {
+                state.isLoading = false;
+            })
+    }
 });
