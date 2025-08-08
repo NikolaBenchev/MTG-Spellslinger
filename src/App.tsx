@@ -1,24 +1,19 @@
-import { useDispatch, useSelector } from "react-redux";
-import { getUsersState } from "./selectors";
-import { useEffect } from "react";
-import { getUsers } from "./features/users/users.async";
-import type { AppDispatch } from "./store/store";
-import UserTable from "./components/User/UserTable";
+import React from "react"
+import { Routes, Route } from "react-router"
+
+const Home = React.lazy(() => import('./pages/Home/home.page'));
+const Register = React.lazy(() => import('./pages/Register/register.page'));
+const UserManagement = React.lazy(() => import('./pages/AdminPanel/UserManagement/user-management.page'));
 
 function App() {
-  const dispatch = useDispatch<AppDispatch>();
-  const { list, isLoading, pagination } = useSelector(getUsersState);
-
-  useEffect(() => {
-    dispatch(getUsers(""));
-  }, [dispatch]);
 
   return (
-    <>
-      <h1>Hello World</h1>
-      {!isLoading && <UserTable dataSource={list}/>}
-    </>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/admin-panel/users" element={<UserManagement />} />
+    </Routes>
   )
 }
 
-export default App
+export default App;
