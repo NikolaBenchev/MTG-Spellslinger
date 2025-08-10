@@ -17,7 +17,11 @@ const UserTable: React.FC = () => {
 
     return (
         <>
-            {isLoading ? <Spin size="large"/> : <Table dataSource={list} columns={tableConfig.columns} pagination={{ position: ['bottomRight'] }} />}
+            {isLoading ?
+                <Spin size="large" />
+                :
+                <Table dataSource={list} columns={tableConfig.columns} pagination={{ position: ['bottomRight'] }} />
+            }
         </>
     );
 }

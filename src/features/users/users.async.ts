@@ -14,14 +14,28 @@ export const getUsers = createAsyncThunk(
 
 export const createUser = createAsyncThunk(
     'users/createUser',
-    async (formData, { rejectWithValue }) => {
+    async (formData: FormData, { rejectWithValue }) => {
         try {
-            return (await axios.post(`${import.meta.env.VITE_API_ROOT}`, formData)).data;
-        } catch(err: any) {
+            return (await axios.post(`${import.meta.env.VITE_API_ROOT}/users`, formData)).data;
+        } catch (err: any) {
             return rejectWithValue(err.message.data);
         }
     }
 )
+
+export const loginUser = createAsyncThunk(
+    'users/loginUser',
+    async(formData: FormData, { rejectWithValue }) => {
+        try {
+            return (await axios.post(`${import.meta.env.VITE_API_ROOT}/login`, formData)).data;
+        } catch (err: any) {
+            return rejectWithValue(err.message.data);
+        }
+    }
+)
+
+
+
 
 // TODO: test and remove user from state
 export const deleteUser = createAsyncThunk(

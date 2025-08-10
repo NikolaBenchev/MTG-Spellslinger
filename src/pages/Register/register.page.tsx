@@ -1,17 +1,23 @@
-import { Form, Button } from "antd";
 import { formConfig } from "./form.config";
 import { createUser } from "../../features/users/users.async";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../../store/store";
+import { useNavigate } from "react-router";
+import CustomForm from "../../components/CustomForm";
 
 const Register = () => {
+    const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
+
+    const onSubmit = async (formData: FormData) => {
+        const result = await dispatch(createUser(formData));
+        
+        if(result.meta.requestStatus === 'fulfilled')
+            navigate('/login');
+    }
+
     return (
-        <Form layout="vertical" onFinish={createUser}>
-            {formConfig.map(item => <Form.Item {...item}>{item.component}</Form.Item>)}
-            <Form.Item>
-                <Button type="primary" htmlType="submit">
-                    Submit
-                </Button>
-            </Form.Item>
-        </Form>
+        <CustomForm onSubmit={onSubmit} formConfig={formConfig}/>
     );
 }
 
