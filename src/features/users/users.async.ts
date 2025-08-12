@@ -23,26 +23,27 @@ export const createUser = createAsyncThunk(
     }
 )
 
-export const loginUser = createAsyncThunk(
-    'users/loginUser',
-    async(formData: FormData, { rejectWithValue }) => {
+export const deleteUser = createAsyncThunk(
+    'users/deleteUser',
+    async (uuid: string, { rejectWithValue }) => {
+        console.log('test');
         try {
-            return (await axios.post(`${import.meta.env.VITE_API_ROOT}/login`, formData)).data;
+            return (await axios.delete(`${import.meta.env.VITE_API_ROOT}/users/${uuid}`, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })).data;
         } catch (err: any) {
             return rejectWithValue(err.message.data);
         }
     }
 )
 
-
-
-
-// TODO: test and remove user from state
-export const deleteUser = createAsyncThunk(
-    'users/deleteUser',
-    async (userUuid: string, { rejectWithValue }) => {
+export const loginUser = createAsyncThunk(
+    'users/loginUser',
+    async (formData: FormData, { rejectWithValue }) => {
         try {
-            return (await axios.delete(`${import.meta.env.VITE_API_ROOT}/users/${userUuid}`)).data;
+            return (await axios.post(`${import.meta.env.VITE_API_ROOT}/login`, formData)).data;
         } catch (err: any) {
             return rejectWithValue(err.message.data);
         }
