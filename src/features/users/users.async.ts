@@ -38,14 +38,3 @@ export const deleteUser = createAsyncThunk(
         }
     }
 )
-
-export const loginUser = createAsyncThunk(
-    'users/loginUser',
-    async (formData: FormData, { rejectWithValue }) => {
-        try {
-            return (await axios.post(`${import.meta.env.VITE_API_ROOT}/login`, formData)).data;
-        } catch (err: any) {
-            return rejectWithValue(err.message.data);
-        }
-    }
-)

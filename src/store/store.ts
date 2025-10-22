@@ -1,27 +1,16 @@
-import { configureStore } from "@reduxjs/toolkit";  
+import { configureStore } from "@reduxjs/toolkit";
 import { usersSlice } from "../features/users/users.slice";
-
+import { authSlice } from "../features/auth/auth.slice";
 
 export const reducer = {
-    users: usersSlice.reducer
+  users: usersSlice.reducer,
+  auth: authSlice.reducer,
 };
 
-export interface RootState {
-    users: {
-        pagination: {
-            totalCount: null,
-            limit: null,
-            page: null
-        },
-        list: [],
-        isLoading: false
-    }
-}
-
 export const store = configureStore({
-	reducer,
-    devTools: true
-	// devTools: import.meta.env.VITE_APP_ENVIRONMENT !== EnvironmentEnum.PROD,
+  reducer,
+  devTools: true,
+  // devTools: import.meta.env.VITE_APP_ENVIRONMENT !== EnvironmentEnum.PROD,
 });
 
 export default store;
