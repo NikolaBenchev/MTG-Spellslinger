@@ -1,16 +1,20 @@
-import { Menu, Layout, Button } from "antd";
+import { Menu, Layout, Button, Row, Col, Tooltip } from "antd";
 import {
     TeamOutlined,
     FolderOutlined,
     HomeOutlined,
     UserOutlined,
-    LogoutOutlined,
     SettingOutlined,
+    PoweroffOutlined,
 } from "@ant-design/icons";
+import { getAuthState } from "../../selectors";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router";
-import "./SideNav.css";
+import "./SideNav.scss";
+import { logout } from "../../features/auth/auth.async";
 
 const SideNav = () => {
+    const { isAuthenticated } = useSelector(getAuthState);
     const { Sider } = Layout;
     const navigate = useNavigate();
     const menuItems = [
@@ -19,12 +23,6 @@ const SideNav = () => {
             label: "Dashboard",
             path: "/dashboard",
             icon: <HomeOutlined />,
-        },
-        {
-            key: "profile",
-            label: "Profile",
-            path: "/profile",
-            icon: <UserOutlined />,
         },
         {
             key: "decks",
@@ -39,11 +37,11 @@ const SideNav = () => {
             icon: <TeamOutlined />,
         },
         {
-            key: 'settings',
-            label: 'Settings',
-            path:'/settings',
-            icon: <SettingOutlined/>
-        }
+            key: "settings",
+            label: "Settings",
+            path: "/settings",
+            icon: <SettingOutlined />,
+        },
     ];
 
     const handleMenuClick = ({ key }: { key: string }) => {
@@ -54,13 +52,55 @@ const SideNav = () => {
         }
     };
 
-    const handleLogout = () => {
-
-    }
-
     return (
-        <Sider className="sideNav">
-            <div className="demo-logo" />
+        <Sider className="side-nav">
+            <Row
+                className="auth-control-buttons"
+                justify="center"
+                align="middle"
+            >
+                {isAuthenticated ? (
+                    <>
+                        <Col>
+                            <UserOutlined
+                                className="user-profile-icon"
+                                onClick={() => navigate("/profile")}
+                            />
+                        </Col>
+                        <Col
+                            style={{
+                                width: "50%",
+                                display: "flex",
+                                flexDirection: "column",
+                            }}
+                        >
+                            <Row className="username-container">
+                                <h2>Nashi</h2>
+                                <Tooltip title="Logout">
+                                    <Button
+                                        type="primary"
+                                        icon={
+                                            <PoweroffOutlined
+                                                onClick={() => logout()}
+                                            />
+                                        }
+                                        style={{ marginLeft: "10px" }}
+                                        size="small"
+                                    />
+                                </Tooltip>
+                            </Row>
+                            <Row>
+                                <h5>3756 mmr</h5>
+                            </Row>
+                        </Col>
+                    </>
+                ) : (
+                    <>
+                        <Button type="primary">Register</Button>
+                        <Button type="primary">Login</Button>
+                    </>
+                )}
+            </Row>
             <Menu
                 theme="dark"
                 mode="inline"
@@ -69,20 +109,6 @@ const SideNav = () => {
                 onClick={handleMenuClick}
                 style={{ flex: 1, minWidth: 0 }}
             />
-            <Button
-                type="primary"
-                icon={<LogoutOutlined/>}
-                onClick={handleLogout}
-                style={{
-                    position: "absolute",
-                    bottom: 16,
-                    left: 16,
-                    right: 16,
-                    width: "calc(200px - 32px)", // Adjust for collapsed width
-                }}
-            >
-                Logout
-            </Button>
         </Sider>
     );
 };
