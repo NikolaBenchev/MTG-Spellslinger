@@ -61,20 +61,18 @@ const SideNav = () => {
             >
                 {isAuthenticated ? (
                     <>
-                        <Col>
+                        <Col
+                            style={{
+                                marginRight: "10px",
+                            }}
+                        >
                             <UserOutlined
                                 className="user-profile-icon"
                                 onClick={() => navigate("/profile")}
                             />
                         </Col>
-                        <Col
-                            style={{
-                                width: "50%",
-                                display: "flex",
-                                flexDirection: "column",
-                            }}
-                        >
-                            <Row className="username-container">
+                        <Col className="username-container">
+                            <Row>
                                 <h2>Nashi</h2>
                                 <Tooltip title="Logout">
                                     <Button
@@ -95,10 +93,20 @@ const SideNav = () => {
                         </Col>
                     </>
                 ) : (
-                    <>
-                        <Button type="primary">Register</Button>
-                        <Button type="primary">Login</Button>
-                    </>
+                    <Col className="login-register-buttons-container">
+                        <Button
+                            type="primary"
+                            onClick={() => navigate("/register")}
+                        >
+                            Register
+                        </Button>
+                        <Button
+                            type="primary"
+                            onClick={() => navigate("/login")}
+                        >
+                            Login
+                        </Button>
+                    </Col>
                 )}
             </Row>
             <Menu
