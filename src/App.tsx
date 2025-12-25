@@ -6,10 +6,13 @@ import type { AppDispatch } from "./store/store";
 import RouteManager from "./routes/RouteManager";
 import Navbar from "./components/SideNav/SideNav";
 import Layout from "antd/es/layout/layout";
+import { useSyncUserToRedux } from "./hooks/useSyncUserDataToRedux";
 
 function App() {
     const dispatch = useDispatch<AppDispatch>();
     const { isLoading } = useSelector(getAuthState);
+
+    useSyncUserToRedux();
 
     useEffect(() => {
         dispatch(checkAuth());

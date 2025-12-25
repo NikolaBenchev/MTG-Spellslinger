@@ -8,13 +8,15 @@ import {
     PoweroffOutlined,
 } from "@ant-design/icons";
 import { getAuthState } from "../../selectors";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
-import "./SideNav.scss";
 import { logout } from "../../features/auth/auth.async";
+import type { AppDispatch } from "../../store/store";
+import "./SideNav.scss";
 
 const SideNav = () => {
-    const { isAuthenticated } = useSelector(getAuthState);
+    const dispatch = useDispatch<AppDispatch>();
+    const { isAuthenticated, userData } = useSelector(getAuthState);
     const { Sider } = Layout;
     const navigate = useNavigate();
     const menuItems = [
@@ -54,6 +56,14 @@ const SideNav = () => {
 
     return (
         <Sider className="side-nav">
+            <Menu
+                theme="dark"
+                mode="inline"
+                defaultSelectedKeys={["dashboard"]}
+                items={menuItems}
+                onClick={handleMenuClick}
+                style={{ flex: 1, minWidth: 0 }}
+            />
             <Row
                 className="auth-control-buttons"
                 justify="center"
@@ -73,13 +83,15 @@ const SideNav = () => {
                         </Col>
                         <Col className="username-container">
                             <Row>
-                                <h2>Nashi</h2>
+                                <h2>{userData?.username}</h2>
                                 <Tooltip title="Logout">
                                     <Button
                                         type="primary"
                                         icon={
                                             <PoweroffOutlined
-                                                onClick={() => logout()}
+                                                onClick={() =>
+                                                    dispatch(logout())
+                                                }
                                             />
                                         }
                                         style={{ marginLeft: "10px" }}
@@ -88,6 +100,7 @@ const SideNav = () => {
                                 </Tooltip>
                             </Row>
                             <Row>
+                                {/* //TODO: change after implementing the MMR system */}
                                 <h5>3756 mmr</h5>
                             </Row>
                         </Col>
@@ -109,14 +122,6 @@ const SideNav = () => {
                     </Col>
                 )}
             </Row>
-            <Menu
-                theme="dark"
-                mode="inline"
-                defaultSelectedKeys={["dashboard"]}
-                items={menuItems}
-                onClick={handleMenuClick}
-                style={{ flex: 1, minWidth: 0 }}
-            />
         </Sider>
     );
 };
